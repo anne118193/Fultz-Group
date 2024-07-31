@@ -1,0 +1,737 @@
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.174847824853E+05    0.17485E+05   -0.84820E+05277096   0.281E+03
+DAV:   2     0.168783895777E+04   -0.15797E+05   -0.15423E+05238048   0.804E+02
+DAV:   3     0.245242239309E+02   -0.16633E+04   -0.15618E+04247944   0.231E+02
+DAV:   4    -0.739589685836E+02   -0.98483E+02   -0.96043E+02252884   0.492E+01
+DAV:   5    -0.755847124046E+02   -0.16257E+01   -0.16220E+01253016   0.684E+00
+DAV:   6    -0.756284540194E+02   -0.43742E-01   -0.43738E-01250312   0.117E+00
+DAV:   7    -0.756313817328E+02   -0.29277E-02   -0.29277E-02262456   0.293E-01    0.136E+01
+DAV:   8    -0.699484215830E+02    0.56830E+01   -0.32169E+01242584   0.143E+01    0.684E+00
+DAV:   9    -0.697277691866E+02    0.22065E+00   -0.11238E+00243600   0.258E+00    0.393E+00
+DAV:  10    -0.696542582309E+02    0.73511E-01   -0.23434E-01242960   0.157E+00    0.295E-01
+DAV:  11    -0.696544978607E+02   -0.23963E-03   -0.27828E-02253776   0.773E-01    0.142E-01
+DAV:  12    -0.696547838393E+02   -0.28598E-03   -0.31471E-03247016   0.218E-01    0.794E-02
+DAV:  13    -0.696548221919E+02   -0.38353E-04   -0.77503E-04246696   0.831E-02    0.158E-02
+DAV:  14    -0.696548140948E+02    0.80971E-05   -0.56017E-05246760   0.449E-02    0.895E-03
+DAV:  15    -0.696548129632E+02    0.11317E-05   -0.14408E-05249656   0.151E-02    0.260E-03
+DAV:  16    -0.696548100492E+02    0.29139E-05   -0.21687E-06139184   0.462E-03    0.143E-03
+DAV:  17    -0.696548107899E+02   -0.74071E-06   -0.28678E-07125228   0.214E-03
+   1 F= -.69654811E+02 E0= -.69654813E+02  d E =0.107678E-04
+ PROFILE, used timers:     256
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+srun: Job 10174294 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=10174294.1
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.173822538402E+05    0.17382E+05   -0.85000E+05277416   0.280E+03
+DAV:   2     0.166662380665E+04   -0.15716E+05   -0.15344E+05238048   0.801E+02
+DAV:   3     0.236964720902E+02   -0.16429E+04   -0.15426E+04247848   0.230E+02
+DAV:   4    -0.738126666238E+02   -0.97509E+02   -0.95047E+02253028   0.487E+01
+DAV:   5    -0.754419108707E+02   -0.16292E+01   -0.16254E+01252864   0.681E+00
+DAV:   6    -0.754861088984E+02   -0.44198E-01   -0.44194E-01250784   0.118E+00
+DAV:   7    -0.754890390277E+02   -0.29301E-02   -0.29301E-02262824   0.292E-01    0.134E+01
+DAV:   8    -0.699766730323E+02    0.55124E+01   -0.31258E+01242680   0.140E+01    0.684E+00
+DAV:   9    -0.697645374146E+02    0.21214E+00   -0.10879E+00243560   0.254E+00    0.393E+00
+DAV:  10    -0.696933055183E+02    0.71232E-01   -0.23403E-01242912   0.157E+00    0.298E-01
+DAV:  11    -0.696935129304E+02   -0.20741E-03   -0.27594E-02254264   0.772E-01    0.142E-01
+DAV:  12    -0.696938147735E+02   -0.30184E-03   -0.31125E-03248200   0.211E-01    0.790E-02
+DAV:  13    -0.696938552911E+02   -0.40518E-04   -0.75916E-04244752   0.853E-02    0.165E-02
+DAV:  14    -0.696938462224E+02    0.90688E-05   -0.64187E-05246464   0.467E-02    0.960E-03
+DAV:  15    -0.696938453592E+02    0.86316E-06   -0.15567E-05248648   0.147E-02    0.259E-03
+DAV:  16    -0.696938425661E+02    0.27932E-05   -0.20606E-06141688   0.459E-03    0.147E-03
+DAV:  17    -0.696938430704E+02   -0.50428E-06   -0.28742E-07125156   0.235E-03
+   1 F= -.69693843E+02 E0= -.69693786E+02  d E =-.228024E-03
+ PROFILE, used timers:     256
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+srun: Job 10174294 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=10174294.2
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.173515740003E+05    0.17352E+05   -0.85063E+05277752   0.279E+03
+DAV:   2     0.166239973533E+04   -0.15689E+05   -0.15318E+05238048   0.799E+02
+DAV:   3     0.236788752942E+02   -0.16387E+04   -0.15386E+04247816   0.230E+02
+DAV:   4    -0.734913115770E+02   -0.97170E+02   -0.94737E+02252760   0.487E+01
+DAV:   5    -0.751006309540E+02   -0.16093E+01   -0.16055E+01253200   0.681E+00
+DAV:   6    -0.751444919455E+02   -0.43861E-01   -0.43857E-01250360   0.117E+00
+DAV:   7    -0.751474391115E+02   -0.29472E-02   -0.29471E-02262672   0.293E-01    0.134E+01
+DAV:   8    -0.696093566966E+02    0.55381E+01   -0.31450E+01242624   0.140E+01    0.682E+00
+DAV:   9    -0.693944724536E+02    0.21488E+00   -0.11100E+00243720   0.256E+00    0.392E+00
+DAV:  10    -0.693229639587E+02    0.71508E-01   -0.23783E-01244152   0.161E+00    0.303E-01
+DAV:  11    -0.693232719012E+02   -0.30794E-03   -0.30704E-02252016   0.832E-01    0.146E-01
+DAV:  12    -0.693235494042E+02   -0.27750E-03   -0.34387E-03245504   0.229E-01    0.797E-02
+DAV:  13    -0.693236085458E+02   -0.59142E-04   -0.82514E-04246904   0.847E-02    0.179E-02
+DAV:  14    -0.693235993149E+02    0.92309E-05   -0.61894E-05246944   0.470E-02    0.962E-03
+DAV:  15    -0.693235979610E+02    0.13539E-05   -0.17251E-05249400   0.163E-02    0.305E-03
+DAV:  16    -0.693235946674E+02    0.32936E-05   -0.23950E-06153728   0.468E-03    0.140E-03
+DAV:  17    -0.693235953459E+02   -0.67853E-06   -0.28622E-07125184   0.218E-03
+   1 F= -.69323595E+02 E0= -.69323341E+02  d E =-.101756E-02
+ PROFILE, used timers:     256
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.173589841681E+05    0.17359E+05   -0.85044E+05277616   0.279E+03
+DAV:   2     0.166314337397E+04   -0.15696E+05   -0.15324E+05238048   0.800E+02
+DAV:   3     0.239260971898E+02   -0.16392E+04   -0.15393E+04247856   0.230E+02
+DAV:   4    -0.735026857119E+02   -0.97429E+02   -0.94956E+02252940   0.487E+01
+DAV:   5    -0.751276501607E+02   -0.16250E+01   -0.16212E+01252392   0.681E+00
+DAV:   6    -0.751727200033E+02   -0.45070E-01   -0.45066E-01250376   0.119E+00
+DAV:   7    -0.751757331351E+02   -0.30131E-02   -0.30131E-02263096   0.297E-01    0.133E+01
+DAV:   8    -0.696761634224E+02    0.54996E+01   -0.31195E+01242648   0.140E+01    0.683E+00
+DAV:   9    -0.694642271577E+02    0.21194E+00   -0.10959E+00243488   0.257E+00    0.393E+00
+DAV:  10    -0.693934340173E+02    0.70793E-01   -0.24095E-01242888   0.166E+00    0.321E-01
+DAV:  11    -0.693935008771E+02   -0.66860E-04   -0.32436E-02253560   0.848E-01    0.147E-01
+DAV:  12    -0.693937967878E+02   -0.29591E-03   -0.35629E-03246344   0.193E-01    0.816E-02
+DAV:  13    -0.693938417126E+02   -0.44925E-04   -0.85779E-04244624   0.899E-02    0.193E-02
+DAV:  14    -0.693938305619E+02    0.11151E-04   -0.69114E-05246760   0.486E-02    0.102E-02
+DAV:  15    -0.693938290329E+02    0.15290E-05   -0.19919E-05250224   0.164E-02    0.317E-03
+DAV:  16    -0.693938257535E+02    0.32793E-05   -0.22280E-06154920   0.433E-03    0.134E-03
+DAV:  17    -0.693938262932E+02   -0.53963E-06   -0.22851E-07125184   0.214E-03
+   1 F= -.69393826E+02 E0= -.69393843E+02  d E =0.652674E-04
+ PROFILE, used timers:     256
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+srun: Job 10174294 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=10174294.4
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.177533688704E+05    0.17753E+05   -0.84252E+05276520   0.284E+03
+DAV:   2     0.174008678654E+04   -0.16013E+05   -0.15631E+05238048   0.815E+02
+DAV:   3     0.268821352651E+02   -0.17132E+04   -0.16099E+04247560   0.235E+02
+DAV:   4    -0.744371493757E+02   -0.10132E+03   -0.98779E+02253148   0.501E+01
+DAV:   5    -0.761481457485E+02   -0.17110E+01   -0.17069E+01253448   0.689E+00
+DAV:   6    -0.761912072999E+02   -0.43062E-01   -0.43058E-01250152   0.115E+00
+DAV:   7    -0.761939648575E+02   -0.27576E-02   -0.27575E-02261156   0.283E-01    0.138E+01
+DAV:   8    -0.702526349039E+02    0.59413E+01   -0.33106E+01242808   0.146E+01    0.688E+00
+DAV:   9    -0.700244205711E+02    0.22821E+00   -0.11176E+00243700   0.261E+00    0.395E+00
+DAV:  10    -0.699467412193E+02    0.77679E-01   -0.22384E-01243296   0.151E+00    0.281E-01
+DAV:  11    -0.699468242674E+02   -0.83048E-04   -0.22354E-02253692   0.679E-01    0.132E-01
+DAV:  12    -0.699471141328E+02   -0.28987E-03   -0.25941E-03247504   0.198E-01    0.768E-02
+DAV:  13    -0.699471157125E+02   -0.15798E-05   -0.70545E-04244368   0.781E-02    0.135E-02
+DAV:  14    -0.699471099043E+02    0.58083E-05   -0.42375E-05247656   0.402E-02    0.717E-03
+DAV:  15    -0.699471091111E+02    0.79321E-06   -0.10193E-05247760   0.141E-02    0.211E-03
+DAV:  16    -0.699471069520E+02    0.21590E-05   -0.18230E-06126560   0.446E-03    0.141E-03
+DAV:  17    -0.699471076221E+02   -0.67010E-06   -0.29756E-07125488   0.220E-03
+   1 F= -.69947108E+02 E0= -.69947185E+02  d E =0.310338E-03
+ PROFILE, used timers:     256
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.174539225347E+05    0.17454E+05   -0.84877E+05277240   0.280E+03
+DAV:   2     0.168232106263E+04   -0.15772E+05   -0.15398E+05238048   0.803E+02
+DAV:   3     0.246418047611E+02   -0.16577E+04   -0.15566E+04247816   0.231E+02
+DAV:   4    -0.735449308137E+02   -0.98187E+02   -0.95739E+02252960   0.491E+01
+DAV:   5    -0.751666139764E+02   -0.16217E+01   -0.16179E+01252720   0.684E+00
+DAV:   6    -0.752111269727E+02   -0.44513E-01   -0.44509E-01250416   0.118E+00
+DAV:   7    -0.752141217770E+02   -0.29948E-02   -0.29948E-02263560   0.296E-01    0.136E+01
+DAV:   8    -0.695379320810E+02    0.56762E+01   -0.32114E+01242688   0.143E+01    0.683E+00
+DAV:   9    -0.693177998769E+02    0.22013E+00   -0.11370E+00243448   0.265E+00    0.393E+00
+DAV:  10    -0.692450588897E+02    0.72741E-01   -0.24635E-01243032   0.176E+00    0.341E-01
+DAV:  11    -0.692449553330E+02    0.10356E-03   -0.36790E-02253504   0.925E-01    0.151E-01
+DAV:  12    -0.692452371925E+02   -0.28186E-03   -0.41792E-03249808   0.184E-01    0.851E-02
+DAV:  13    -0.692452754462E+02   -0.38254E-04   -0.91008E-04244656   0.102E-01    0.200E-02
+DAV:  14    -0.692452635999E+02    0.11846E-04   -0.85312E-05246728   0.548E-02    0.118E-02
+DAV:  15    -0.692452610524E+02    0.25475E-05   -0.24601E-05249232   0.163E-02    0.326E-03
+DAV:  16    -0.692452575372E+02    0.35152E-05   -0.20956E-06155936   0.404E-03    0.121E-03
+DAV:  17    -0.692452579841E+02   -0.44683E-06   -0.25712E-07125256   0.236E-03
+   1 F= -.69245258E+02 E0= -.69245240E+02  d E =-.722838E-04
+ PROFILE, used timers:     256
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.173927306342E+05    0.17393E+05   -0.84965E+05277184   0.280E+03
+DAV:   2     0.166977862269E+04   -0.15723E+05   -0.15352E+05238048   0.801E+02
+DAV:   3     0.242077142398E+02   -0.16456E+04   -0.15451E+04247776   0.230E+02
+DAV:   4    -0.737036521839E+02   -0.97911E+02   -0.95422E+02253152   0.488E+01
+DAV:   5    -0.753484681763E+02   -0.16448E+01   -0.16408E+01252728   0.681E+00
+DAV:   6    -0.753928922729E+02   -0.44424E-01   -0.44421E-01250440   0.118E+00
+DAV:   7    -0.753958408041E+02   -0.29485E-02   -0.29485E-02262832   0.293E-01    0.133E+01
+DAV:   8    -0.699167977698E+02    0.54790E+01   -0.31027E+01242696   0.139E+01    0.683E+00
+DAV:   9    -0.697071724144E+02    0.20963E+00   -0.10768E+00243664   0.254E+00    0.393E+00
+DAV:  10    -0.696364601607E+02    0.70712E-01   -0.23423E-01242844   0.161E+00    0.306E-01
+DAV:  11    -0.696366158421E+02   -0.15568E-03   -0.28893E-02250560   0.801E-01    0.142E-01
+DAV:  12    -0.696369187298E+02   -0.30289E-03   -0.31455E-03252220   0.200E-01    0.786E-02
+DAV:  13    -0.696369669489E+02   -0.48219E-04   -0.75813E-04246048   0.873E-02    0.168E-02
+DAV:  14    -0.696369584846E+02    0.84643E-05   -0.66338E-05246852   0.487E-02    0.936E-03
+DAV:  15    -0.696369581245E+02    0.36010E-06   -0.15993E-05245528   0.143E-02    0.296E-03
+DAV:  16    -0.696369548083E+02    0.33163E-05   -0.20383E-06154796   0.416E-03    0.136E-03
+DAV:  17    -0.696369554087E+02   -0.60048E-06   -0.24694E-07125352   0.211E-03
+   1 F= -.69636955E+02 E0= -.69637001E+02  d E =0.181979E-03
+ PROFILE, used timers:     256
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+srun: Job 10174294 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Step created for StepId=10174294.7
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.176407418189E+05    0.17641E+05   -0.84466E+05276552   0.283E+03
+DAV:   2     0.171762203557E+04   -0.15923E+05   -0.15545E+05238048   0.811E+02
+DAV:   3     0.262687956867E+02   -0.16914E+04   -0.15892E+04247824   0.234E+02
+DAV:   4    -0.739107586319E+02   -0.10018E+03   -0.97632E+02253180   0.497E+01
+DAV:   5    -0.755958567451E+02   -0.16851E+01   -0.16809E+01253064   0.687E+00
+DAV:   6    -0.756389547234E+02   -0.43098E-01   -0.43094E-01250168   0.116E+00
+DAV:   7    -0.756417925640E+02   -0.28378E-02   -0.28378E-02261464   0.288E-01    0.135E+01
+DAV:   8    -0.698660347677E+02    0.57758E+01   -0.32206E+01242688   0.144E+01    0.687E+00
+DAV:   9    -0.696437976120E+02    0.22224E+00   -0.11077E+00243504   0.262E+00    0.395E+00
+DAV:  10    -0.695677656036E+02    0.76032E-01   -0.23328E-01243240   0.171E+00    0.318E-01
+DAV:  11    -0.695677403187E+02    0.25285E-04   -0.32092E-02251184   0.891E-01    0.143E-01
+DAV:  12    -0.695679936449E+02   -0.25333E-03   -0.35660E-03248504   0.188E-01    0.786E-02
+DAV:  13    -0.695680353262E+02   -0.41681E-04   -0.74702E-04245448   0.954E-02    0.191E-02
+DAV:  14    -0.695680226530E+02    0.12673E-04   -0.83288E-05246168   0.552E-02    0.111E-02
+DAV:  15    -0.695680213556E+02    0.12974E-05   -0.22207E-05249272   0.156E-02    0.300E-03
+DAV:  16    -0.695680180317E+02    0.33238E-05   -0.18555E-06155120   0.395E-03    0.134E-03
+DAV:  17    -0.695680184188E+02   -0.38710E-06   -0.26764E-07125368   0.240E-03
+   1 F= -.69568018E+02 E0= -.69568215E+02  d E =0.787633E-03
+ PROFILE, used timers:     256
+
+Lmod is automatically replacing "gcc/11.2.0" with "nvidia/22.7".
+
+
+Lmod is automatically replacing "PrgEnv-gnu/8.3.3" with "PrgEnv-nvidia/8.3.3".
+
+Warning: This is an experimental release of NCCL with an OFI plugin for use with libfabric on Perlmutter.
+In case of issues, please refer to our known issues: https://docs.nersc.gov/current/
+and open a help ticket if your issue is not listed: https://help.nersc.gov/
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.25
+
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    1 cores,    2 groups
+ OpenACC runtime initialized ...    4 GPUs detected
+ vasp.6.2.1 16May21 (build Dec 19 2022 15:45:47) complex                         
+ POSCAR found :  1 types and      64 ions
+ Reading from existing POTCAR
+ scaLAPACK will be used selectively (only on CPU)
+ -----------------------------------------------------------------------------
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|     For optimal performance we recommend to set                             |
+|       NCORE = 2 up to number-of-cores-per-socket                            |
+|     NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).      |
+|     This setting can greatly improve the performance of VASP for DFT.       |
+|     The default, NCORE=1 might be grossly inefficient on modern             |
+|     multi-core architectures or massively parallel machines. Do your        |
+|     own testing! More info at https://www.vasp.at/wiki/index.php/NCORE      |
+|     Unfortunately you need to use the default for GW and RPA                |
+|     calculations (for HF NCORE is supported but not extensively tested      |
+|     yet).                                                                   |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ Reading from existing POTCAR
+ -----------------------------------------------------------------------------
+|                                                                             |
+|               ----> ADVICE to this user running VASP <----                  |
+|                                                                             |
+|     You have a (more or less) 'large supercell' and for larger cells it     |
+|     might be more efficient to use real-space projection operators.         |
+|     Therefore, try LREAL= Auto in the INCAR file.                           |
+|     Mind: If you want to do very accurate calculations, keep the            |
+|     reciprocal projection scheme (i.e. LREAL=.FALSE.).                      |
+|                                                                             |
+ -----------------------------------------------------------------------------
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.177010736565E+05    0.17701E+05   -0.84341E+05276408   0.283E+03
+DAV:   2     0.172928158952E+04   -0.15972E+05   -0.15592E+05238048   0.813E+02
+DAV:   3     0.267198130615E+02   -0.17026E+04   -0.16002E+04247632   0.235E+02
+DAV:   4    -0.740454760404E+02   -0.10077E+03   -0.98216E+02253212   0.500E+01
+DAV:   5    -0.757434215678E+02   -0.16979E+01   -0.16939E+01253064   0.688E+00
+DAV:   6    -0.757869584874E+02   -0.43537E-01   -0.43533E-01250072   0.116E+00
+DAV:   7    -0.757897970429E+02   -0.28386E-02   -0.28385E-02261204   0.288E-01    0.137E+01
+DAV:   8    -0.699211633934E+02    0.58686E+01   -0.32688E+01242664   0.145E+01    0.687E+00
+DAV:   9    -0.696948593367E+02    0.22630E+00   -0.11170E+00243600   0.261E+00    0.394E+00
+DAV:  10    -0.696176054793E+02    0.77254E-01   -0.22913E-01243192   0.159E+00    0.294E-01
+DAV:  11    -0.696177433248E+02   -0.13785E-03   -0.27042E-02251312   0.788E-01    0.138E-01
+DAV:  12    -0.696179862809E+02   -0.24296E-03   -0.30580E-03247256   0.210E-01    0.765E-02
+DAV:  13    -0.696180207886E+02   -0.34508E-04   -0.72174E-04244976   0.840E-02    0.162E-02
+DAV:  14    -0.696180109427E+02    0.98459E-05   -0.60537E-05246416   0.475E-02    0.920E-03
+DAV:  15    -0.696180096711E+02    0.12716E-05   -0.15138E-05248184   0.147E-02    0.288E-03
+DAV:  16    -0.696180062332E+02    0.34379E-05   -0.20902E-06138864   0.462E-03    0.141E-03
+DAV:  17    -0.696180067659E+02   -0.53270E-06   -0.28544E-07125392   0.236E-03
+   1 F= -.69618007E+02 E0= -.69618185E+02  d E =0.711964E-03
+ PROFILE, used timers:     256

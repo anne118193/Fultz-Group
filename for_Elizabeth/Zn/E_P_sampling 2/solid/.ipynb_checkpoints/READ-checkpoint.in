@@ -1,0 +1,83 @@
+#how to run 
+#mpirun -n 1 ./lmp_mpi -v SEED 12345 -v T 1.0 -v c 6.0 -v SIDE 3 -v V 0.9 -v LABEL metrolan_sims -v re_step 10000 -v PH liq -v EXTRASTEPS 1e5 -log none -in lj_metrolan_read.in
+
+#===========Input variables==============
+variable my_side	equal ${SIDE}	#from bash
+variable my_cutoff 	equal 5    	#from bash
+variable seed 		equal ${SEED}	#from bash
+variable my_T 		equal $T 	#from bash
+variable my_phase	string ${PH}	#from bash phase liq or sol
+variable my_filename   string ${seed}_${PH}	#from bash output file *.dat name
+variable my_traj	string ${TRAJ}	#from bash phase liq or sol
+variable cur_step        equal ${CS}
+variable my_traj_f     equal ${TRAJ}
+
+variable my_restart_step	equal ${re_step}	#from bash restart_step number
+variable extra_steps		equal ${EXTRASTEPS}	#from bash number of simulation steps
+
+variable seed_new equal ${SEED}+${my_traj_f}+100
+
+#===========Read restart file============
+units       metal
+boundary p p p
+
+print "Traj ${my_traj}"
+
+variable out_folder string data_${seed}
+variable traj_folder string ${out_folder}/traj
+variable restart_file	string ${out_folder}/traj/${my_restart_step}.${my_phase}
+read_restart	${restart_file}.equil
+
+#====================Potential parameters=======================
+pair_style  mlip mlip.ini
+pair_coeff  * *           #  
+
+
+neighbor    2.0 bin
+neighbor    1.0 bin
+neigh_modify delay 0 every 1 check yes
+neigh_modify delay 10 check yes
+
+# normalize thermo properties by number of atoms (yes or no)
+#thermo_modify norm no
+
+reset_timestep ${cur_step}
+
+velocity all create ${my_T} ${seed_new}
+fix      1 all nvt temp $T $T 0.1
+
+# potential energy and pressure definitons
+variable C_dT equal c_thermo_pe/atoms
+fix 3 all ave/time 1 10000 10000 v_C_dT
+compute my_press all pressure NULL pair
+
+run 10000
+
+#reset_timestep ${cur_step}
+
+print "CALC_START ${my_traj}"
+timestep 0.001
+thermo 10000
+
+thermo_style custom step temp v_my_T vol v_my_cutoff v_my_side f_3 c_my_press
+
+#========Output variables=============
+variable    step    equal step
+variable   temp_sim    equal ${my_T}	#current simulation temperature           
+variable    vol     equal vol/atoms     #volume per atom 
+variable    press_   equal c_my_press/10000.0/160.2176620 #press
+variable    pe_      equal f_3		#potential energy 
+variable my_atoms    equal atoms
+
+fix    ex all print 10000 "${step} ${temp_sim} ${vol} ${my_cutoff} ${my_atoms} ${pe_} ${press_} ${my_traj} ${seed}" append ${out_folder}/${my_filename}_${my_traj}.dat
+
+#============write restart============
+variable traj_folder	string ${out_folder}/traj
+
+variable new_cur_step equal ${cur_step}+${extra_steps}
+
+print "${new_cur_step}"
+restart 10000 ${traj_folder}/*.${my_phase}.equil
+
+run     ${extra_steps}
+

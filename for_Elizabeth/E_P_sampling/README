@@ -1,0 +1,19 @@
+Contains setup for statistical sampling of E and P for thermodynamic integration
+
+# All scripts here work for my docker container
+# You can download it from my docker account (see instruction below)
+
+# Use the following command to download (NERSC users; both on cori and perlmutter)
+# All scripts are load this container
+shifterimg -v pull docker:wolanddream/python_mpi:lammps_hdf5
+
+# If you are writing your own job scripts with the use of the container
+# just include the following line
+"#SBATCH --image=docker:wolanddream/python_mpi:lammps_hdf5"
+
+
+# solid
+contains example setup for solid phase (Ge diamond)
+
+# liquid
+contains example setup for liquid phase (Ge diamond)

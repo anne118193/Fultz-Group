@@ -1,0 +1,22 @@
+SYSTEM = Zn
+PREC = Normal
+ENCUT = 400
+EDIFF = 1.0e-6
+
+ALGO = Fast
+
+ISTART = 0
+ISMEAR = 0
+SIGMA = 0.07
+
+KGAMMA = .TRUE.
+KSPACING =  2.0
+
+NCORE = 16
+NSIM = 4
+
+ISYM   =      0
+NELM   =     80;
+
+LWAVE = .FALSE.
+LCHARG = .FALSE.

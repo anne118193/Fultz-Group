@@ -1,0 +1,246 @@
+#how to run
+# srun -n 512 --cpu-bind=cores --exclusive --zonesort=off shifter lmp_mpich -v SEED 1 -v T 1200 -v P 1.0 -v N 1000 -v REF_LIQ -4.33 -v LABEL Ge_P_N -v RUNSTEPS 1e7 -in in.melt > melt.out
+
+#======================Simulation Parameters====================
+variable run_steps         equal ${RUNSTEPS} #maximum number of steps in coexistence simulation 
+variable equilibrate_steps equal 20000 #number of steps for system equlibration
+variable average_steps     equal 60000 #number of steps used to calculate ference solid and liquid energies
+
+variable ref_en_liq     equal ${REF_LIQ} # reference energy of liquid obtained from liquid run 
+
+variable my_N equal $N              #from bash
+variable my_T equal $T              #from bash
+variable    my_filename   string ${LABEL} #output filename from bash
+
+variable side equal ($N/8)^(1/3)    #box shape 
+variable my_side equal ${side}
+variable latparama  equal 5.322        #by default 5.322 for Zn
+variable latparamb  equal 4.6089871989407829 
+variable latparamc  equal 5.181
+
+variable lat_2 equal ${side}*${latparamc}-0.01 # Line that separates solid and liquid
+
+variable lata equal ${side}*${latparama}
+variable latb equal ${side}*${latparamb}
+variable latc equal ${side}*${latparamc}
+
+variable dub_lat equal ${side}*${latparamc}*2 
+
+print "temp=${my_T}, press=${P}, N=${my_N}, latparam=${latparama}, seed=${SEED}"
+#=====================Averages run=============================
+#==============================================================
+
+#======================SOLID & Full box==================================
+#------------------Box parameters-----------------------------
+units       metal 
+boundary p p p
+
+box tilt large
+read_data       supercell_lammps
+
+
+#increase lattice to side x side x 2side shape---------
+variable dub_side   equal ${side}*2
+replicate ${side} ${side} ${dub_side}
+
+#------------------Potential parameters----------------
+mass       1 65.38 #Zn
+
+pair_style  mlip mlip.ini
+pair_coeff  * *           #  
+
+neighbor    1.0 bin
+neigh_modify delay 0 every 1 check yes
+
+#========================Create liquid region=========================
+region liquid block 0 ${lata} 0 ${latb} ${latc} ${dub_lat}   #creates liquid region (half of the box)
+group  liquid region liquid
+
+region solid block 0 ${lata} 0 ${latb} 0 ${lat_2}  #creates liquid region (half of the box)
+group  solid region solid
+
+#-------------Output and thermo variables---------------------
+variable    step    equal step     #simulation step number
+variable   temp_    equal temp     #current temperature
+variable   temp_sim equal $T       #initial temperature (from bash)
+variable    vol     equal vol/atoms       
+variable    press   equal press    #current pressure
+#--------------------Output files----------------------------
+variable dump_name string ${LABEL}_${SEED}_${my_T}
+
+#--------------------------Run------------------------------
+#----------------------------------------------------------
+velocity all create $T ${SEED}
+
+#------solid at npt-------------------
+#fix mc all atom/swap 10 10 ${SEED} $T ke no types 1 2 #atom swap (from MC package)
+fix      1 all npt temp $T $T 1.0 aniso $P $P 100.0 #set system at T temperature 
+
+variable C_dT equal c_thermo_pe/atoms           #potential energy
+fix     3 all ave/time 1 10000 10000 v_C_dT     #average potential energy every 10000 steps
+thermo_style custom step time temp vol v_side f_3 press #log/screen output
+thermo 10000
+timestep 0.001
+variable    pe_      equal f_3   #potential energy
+
+#equlibrate solid at T---------------
+run ${equilibrate_steps}     #equlibrate system
+
+#run simulation to find average------- 
+variable all_steps	equal ${average_steps}+step
+
+fix     ave_sol all ave/time 1 ${average_steps} ${all_steps} v_C_dT #average potential energy f_3 (every 10000 steps)
+variable en_sol_temp	equal f_3 #NOT f_ave_liq, because of converence!!!
+
+run ${average_steps}
+
+variable ref_en_sol	equal ${en_sol_temp}
+print "en_check sol ${ref_en_sol}"
+
+#-------------checks if colid is melted or liquid solidified--------------
+variable disper equal 1-${ref_en_liq}/${ref_en_sol} #finds current solid energy deviation from reference liquid energy, if it is small the system is melted
+
+print "disp_perc=${disper}, en_sol_temp=${en_sol_temp}, ref_en_sol=${ref_en_sol} ref_en_liq=${ref_en_liq}" 
+variable ref_en_liq_ladygin equal -4.09516815870152
+variable ref_en_sol_ladygin equal -4.22761420379807
+if "(${disper} < 0.008) && (${ref_en_liq} > ${ref_en_liq_ladygin})" then &
+    "print '${step} ${temp_} ${vol} ${side} ${pe_} ${press} $P $T'" &
+        "print 'ERR: no differenc between phases: solid is melted'" &
+    "print 'LIQUID ${ref_en_liq}'" &
+    "print '${step} ${temp_} ${vol} ${side} ${pe_} ${press} liquid $P $T' append ${my_filename}.poss" &
+       "quit"
+
+if "(${disper} < 0.008) && (${ref_en_sol} < ${ref_en_sol_ladygin})" then &
+    "print '${step} ${temp_} ${vol} ${side} ${pe_} ${press} $P $T'" &
+        "print 'ERR: no differenc between phases: liquid is solidified'" &
+    "print 'SOLID ${ref_en_sol}'" &
+    "print '${step} ${temp_} ${vol} ${side} ${pe_} ${press} solid $P $T' append ${my_filename}.poss" &
+       "quit"
+
+unfix 1
+unfix 3
+unfix ave_sol
+reset_timestep 0
+
+print "ref en sol=${ref_en_sol} liq=${ref_en_liq}"
+#========================Two phases coexistence simulation=====================
+#==============================================================================
+
+#------make liquid with nve+langevin----------
+fix     liq liquid nve
+
+variable T_high equal 5*$T #to heat liquid region up to 5*T
+variable T_low equal 2*$T  #to cool liquid region down to 2*T
+
+fix     liq2 liquid langevin ${T_high} ${T_high} 10.0 ${SEED} #to melt liquid region
+
+variable C_dT equal c_thermo_pe/atoms   #potential energy
+fix     3 liquid ave/time 1 10000 10000 v_C_dT #average potential energy (every 10000 steps)
+thermo_style custom step temp vol v_side f_3 press #log/screen output
+thermo 10000
+timestep 0.001
+
+velocity all create ${T_high} ${SEED}
+run     ${equilibrate_steps} #melting steps
+
+unfix liq
+unfix liq2
+unfix 3
+reset_timestep 0
+
+#------equilibrate liquid--------------
+fix      liq3 liquid npt temp ${T_low} ${T_low} 1.0 z $P $P 100.0 #to equlibrate liquid at T_low 
+
+variable C_dT equal c_thermo_pe/atoms
+
+compute solene solid pe/atom
+compute liqene liquid pe/atom
+
+compute solene_red solid reduce sum c_solene
+compute liqene_red liquid reduce sum c_liqene
+
+variable C_dT_sol equal c_solene_red/atoms*2
+variable C_dT_liq equal c_liqene_red/atoms*2
+
+fix     4 solid ave/time 1 10000 10000 v_C_dT_sol
+fix     5 liquid ave/time 1 10000 10000 v_C_dT_liq
+
+fix     3 liquid ave/time 1 10000 10000 v_C_dT
+
+thermo_style custom step temp vol v_side f_3 f_4 f_5 press
+thermo 10000
+timestep 0.001
+
+velocity all create ${T_low} ${SEED}
+run     ${equilibrate_steps} #liquid equlibration steps
+
+unfix liq3
+unfix 3
+unfix 4
+unfix 5
+
+reset_timestep 0
+
+#-----------------------------------
+#------     run all npt     --------
+#-----------------------------------
+
+#---initial coexistence simulation parameters: velocities, barostat, swap-----------------------
+#
+velocity all create 1 ${SEED}     #SEED from bash, puts solid at zero temperature
+velocity liquid create $T ${SEED} #puts liquid at T temperature
+
+fix      1 all npt temp $T $T 1.0 aniso $P $P 100.0 
+
+variable C_dT equal c_thermo_pe/atoms       #potential energy
+
+variable C_dT_sol equal c_solene_red/atoms*2
+variable C_dT_liq equal c_liqene_red/atoms*2
+
+fix     4 solid ave/time 1 10000 10000 v_C_dT_sol
+fix     5 liquid ave/time 1 10000 10000 v_C_dT_liq
+
+fix     3 all ave/time 1 10000 10000 v_C_dT #average potential energy every 10000 step
+
+thermo_style custom step temp vol v_side f_3 f_4 f_5 pxx pyy pzz press #log file or screen output
+thermo 10000    
+timestep 0.001
+variable    pe_      equal f_3 #potential energy
+
+print "CALC_START TWOPH"
+
+#-----creating loop to check phase equlibrium every 10000 steps--------------
+#----------------------------------------------------------------------------
+
+variable    st equal ${run_steps}/1e4 
+variable i loop ${st}    #number of loop iterations
+
+variable shift      equal (${ref_en_liq}-${ref_en_sol})/3 # 1/3 of gap between solid and liquid energies
+variable en_liq     equal ${ref_en_liq}-${shift} #possible coexistence energy shift from liquid to stop simulation (melted)
+variable en_sol     equal ${ref_en_sol}+${shift} #possible coexistence energy shift from solid to stop simulation  (solidified)
+
+print "EN_SOL=${en_sol}, EN_LIQ=${en_liq}"
+
+run 10000 #to ignore first 10000 steps
+
+#------loop to check phase--------
+label loop
+run 10000
+if "${pe_} < ${en_sol}" then &
+    "print 'SOLID ${pe_}'" &
+    "print '${step} ${temp_} ${vol} ${side} ${pe_} ${press} solid $P $T' append ${my_filename}.poss" & 
+    "jump SELF break" &
+elif "(${pe_} != 0) && (${pe_} > ${en_liq})" &
+    "print 'LIQUID ${pe_}'" &
+    "print '${step} ${temp_} ${vol} ${side} ${pe_} ${press} liquid $P $T' append ${my_filename}.poss" &
+    "jump SELF break" 
+print "$i"
+next i
+jump SELF loop
+label break
+
+#-------writes 'unknown' to *.poss if the system neither reached solid or liquid (hint: increase number of runs)
+if "${step} == ${run_steps}" then &
+    "print 'UNKNOWN ${step} steps, ${temp_} temp'" &
+    "print '${step} ${temp_} ${vol} ${side} ${pe_} ${press} unknown $P $T' append ${my_filename}.poss" 
+

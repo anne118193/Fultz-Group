@@ -1,0 +1,51 @@
+
+#======================Simulation Parameters====================
+variable run_steps         equal 10000
+variable        T equal 690
+variable        Tx2 equal ${T}.*2
+variable        seed equal 1234725
+variable        size equal 2
+#=====================Box parameters============================
+
+#=====================Box parameters============================
+units       metal
+boundary p p p
+
+
+box tilt large
+read_data       supercell_lammps
+
+
+
+mass    1  65.38 #Zn
+
+#====================Potential parameters=======================
+pair_style  mlip mlip.ini
+pair_coeff  * *           #  
+#neighbor    2.0 bin
+neighbor    1.0 bin
+neigh_modify delay 0 every 1 check yes
+#neigh_modify delay 10 check yes
+#========================Create regions=========================
+velocity all create ${Tx2} ${seed}
+
+#=========thermo==================
+thermo_style custom step temp vol press
+
+#==========================Output files========================
+# variable en_file  string solid_${LABEL}_${side}_${T}.txt
+#------solid at npt-------------------
+fix      1 all nvt temp $T $T 0.1 
+timestep 0.001
+thermo_style custom step time temp vol press
+thermo 1
+run 10
+thermo 1
+run 90
+thermo 10
+run 900
+thermo 100
+run 9000
+
+write_dump all custom my.dump id type x y z 
+write_data end.inp 

@@ -1,0 +1,43 @@
+Setup for solid phase
+
+# HOW TO RUN
+
+# Generate net in (T,V) and jobs (each job correspond to single point)
+
+python3.6 script_gen.py
+
+# SUBMITTING JOBS
+
+for i in {1..25}; do
+sbatch job.sl
+done
+
+# After jobs will FINISH
+# Check if jobs obtained substantial amount of statistis 
+# (I recommend doing 4800000 steps in total 
+# which states for 16 x 30 statistical points)
+
+# If the final step is not reached
+# Determine which points are not fully computed
+# Regenerate scripts for them
+
+python3.6 script_gen.py 
+
+# Run ones which are not finished
+
+# REFERENCE E0
+
+# Go to E0_ref folder
+
+cd E0_ref
+
+# Run folder generator 
+
+./create_folder.sh
+
+# Submit job (should take 30 mins)
+
+sbatch job.sl
+
+
+You are done!!!

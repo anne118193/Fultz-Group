@@ -1,0 +1,50 @@
+Setup for obtaining statistical data for computation of 
+the melting temperature with error
+
+# Also all scripts here work for my docker container
+# You can download it from my docker account (see instruction below)
+
+# Use the following command to download (NERSC users; both on cori and perlmutter)
+# All scripts are load this container
+shifterimg -v pull docker:wolanddream/python_mpi:lammps_hdf5
+
+# If you are writing your own job scripts with the use of the container
+# just include the following line
+"#SBATCH --image=docker:wolanddream/python_mpi:lammps_hdf5"
+
+# create_T_folder 
+
+creates folder for specific temprerature T
+
+# setup
+general setup 
+
+# setup/liquid
+Simulates liquid to obtain reference temperature of the pure liquid
+
+# setup/solid_coex
+Simulates pure solid and melting
+
+# HOW TO RUN
+
+./create_T_folder.sh T
+
+cd TK
+cd liquid
+
+sbatch job.sl
+
+# wait till liquid simulation finishes
+
+cd ../
+./create_stat_folders.sh
+
+# wait till finish (5 hours each, can take a few days)
+
+In each folder the should be (ideally) SYSTEM_P_N.poss where SYSTEM is you tag (see README) P is your pressure and N is number of atoms
+
+cat */SYSTEM_P_N.poss >> SYSTEM_P_N.poss
+
+#######
+
+You are done!!! 

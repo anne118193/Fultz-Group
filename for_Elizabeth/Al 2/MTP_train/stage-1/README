@@ -1,0 +1,17 @@
+To launch learning you need to 00 folder with pretrained potential. Al other folders provided
+
+Adjust to system (not a hard deal, small twicks needed):
+job.sl
+lammps_setup
+vasp/sample_in
+
+To run (buy default job is run on 2 nodes for 12 hours):
+sbatch job.sl
+
+Check the last iteration done;
+Restart with last iteration if broke down in the middle (the simplest way);
+To do so 
+rm -rf LAST_ITER
+update job.sl to start with LAST_ITER
+
+Convergence is reached when no new configurations are selected.

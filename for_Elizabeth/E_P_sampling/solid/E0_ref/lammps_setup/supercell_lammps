@@ -1,0 +1,13 @@
+ # Something
+ 4 atoms
+ 1 atom types
+ 0   lat_param      xlo xhi
+ 0   lat_param      ylo yhi
+ 0   lat_param      zlo zhi
+   0.0000000000000000        0.0000000000000000        0.0000000000000000      xy xz yz
+ Atoms
+
+           1           1   half                      0.0000000000000000        half
+           2           1   half                      half                      0.0000000000000000
+           3           1   0.0000000000000000        0.0000000000000000        0.0000000000000000
+           4           1   0.0000000000000000        half                      half

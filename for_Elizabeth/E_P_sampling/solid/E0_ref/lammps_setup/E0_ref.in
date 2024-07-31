@@ -1,0 +1,61 @@
+    
+#How to run /global/homes/v/vladygin/bin/lmp_mpi_gcc -v SIDE 6 -v SEED 12345 -in E0.in
+
+##===========Set variables==============================================
+variable my_side      equal 5
+variable cur_temp   equal 1e-11
+variable runs       equal 100
+variable seed       equal 1
+
+##============Lattice parameters========================================
+
+units       metal
+boundary p p p
+
+box tilt large
+read_data       supercell_lammps
+
+replicate ${my_side} ${my_side} ${my_side}
+
+mass       1 26.982 #Al
+
+#====================Potential parameters=======================
+pair_style  mlip mlip.ini
+pair_coeff  * *           #  
+
+neighbor    2.0 bin
+neighbor    1.0 bin
+neigh_modify delay 0 every 1 check yes
+neigh_modify delay 10 check yes
+
+
+##=============Thermo output============================================
+
+thermo_modify norm yes
+timestep 0.001
+thermo 100
+
+
+#=============Create a loop========================
+variable C_dT equal c_thermo_pe/atoms
+compute my_press all pressure NULL pair
+
+variable temp2 equal 2*${cur_temp}  
+
+velocity	all create ${temp2} ${seed}
+fix     liq all nvt temp ${cur_temp} ${cur_temp} 0.1
+
+fix 3 all ave/time 1 1 1 v_C_dT
+
+thermo_style custom step temp f_3 c_my_press
+
+variable    vol     equal vol/atoms
+variable    press_   equal c_my_press/10000.0/160.21766208
+variable    pe_      equal f_3  #potential energy 
+fix 4 all print 100 "${pe_},${press_}" file E0.dat
+fix 5 all print 100 "${vol},5,${pe_},${press_}" file E0_exp.txt
+ 
+
+write_data 0.xyz nocoeff
+
+run ${runs}

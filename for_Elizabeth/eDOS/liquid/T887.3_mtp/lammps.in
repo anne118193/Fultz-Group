@@ -1,0 +1,105 @@
+#how to run
+# srun -n 512 --cpu-bind=cores --exclusive --zonesort=off shifter lmp_mpich -v SEED 1 -v T 1200 -v P 1.0 -v N 1000 -v REF_LIQ -4.33 -v LABEL Ge_P_N -v RUNSTEPS 1e7 -in in.melt > melt.out
+
+#======================Simulation Parameters====================
+variable equilibrate_steps equal 120000 #number of steps for system equlibration
+variable average_steps     equal 60000 #number of steps used to calculate ference solid and liquid energies
+
+
+variable T equal 887.3            #from bash
+
+#=====================Averages run=============================
+#==============================================================
+
+#======================SOLID & Full box==================================
+#------------------Box parameters-----------------------------
+units       metal 
+boundary p p p
+
+box tilt large
+read_data       supercell_lammps
+
+#------------------Potential parameters----------------
+mass    1  26.982 #Al
+
+pair_style  mlip mlip.ini
+pair_coeff  * *           #  
+
+neighbor    1.0 bin
+neigh_modify delay 0 every 1 check yes
+
+#-------------Output and thermo variables---------------------
+variable    step    equal step     #simulation step number
+variable   temp_    equal temp     #current temperature
+variable   temp_sim equal $T       #initial temperature (from bash)
+variable    vol     equal vol/atoms       
+variable    press   equal press    #current pressure
+
+
+#-----------------------Run---------------------------
+#-----------------------------------------------------
+
+#make liquid with nve+langevin----------
+fix     liq all nve
+variable T_high equal 4*$T #to heat liquid region up to 5*T
+fix     liq2 all langevin ${T_high} ${T_high} 10.0 ${SEED} #to melt liquid region
+
+variable C_dT equal c_thermo_pe/atoms   #potential energy
+fix     3 all ave/time 1 10000 10000 v_C_dT #average potential energy f_3 (every 10000 steps)
+thermo_style custom step temp vol f_3 press #log/screen output
+thermo 10000
+timestep 0.001
+
+run     30000 #melting steps
+
+unfix liq
+unfix liq2
+
+#equlibrate liquid at T----------------
+fix     liq all nve
+fix     liq2 all langevin ${T} ${T} 1.0 ${SEED} #to melt liquid region
+#fix      liq3 all npt temp $T $T 1.0 iso $P $P 100.0
+
+run ${equilibrate_steps}
+
+unfix liq
+unfix liq2
+#unfix liq3
+unfix 3 
+#========== NVE TDEP =========================
+thermo 100
+thermo_style custom step temp pe ke etotal pxx pyy pzz pxy pxz pyz press
+
+variable          st    equal step
+variable          tm    equal step
+variable          Et    equal etotal
+variable          Ep    equal pe
+variable          Ek    equal ke
+variable          tmp   equal temp
+variable          pr    equal press/10000
+variable          sxx   equal pxx/10000
+variable          syy   equal pyy/10000
+variable          szz   equal pzz/10000
+variable          sxy   equal pxy/10000
+variable          sxz   equal pxz/10000
+variable          syz   equal pyz/10000
+
+reset_timestep 0
+
+timestep        0.001
+
+fix 2 all nve
+
+fix statdump all print 1000 "${st} ${tm} ${Et} ${Ep} ${Ek} ${tmp} ${pr} ${sxx} ${syy} ${szz} ${sxy} ${sxz} ${syz}" screen no file dump.stat
+dump posdump all custom 1000 dump.positions xs ys zs
+dump forcedump all custom 1000 dump.forces fx fy fz
+dump_modify posdump format line "%20.15e %20.15e %20.15e"
+dump_modify forcedump format line "%20.15e %20.15e %20.15e"
+
+dump_modify forcedump sort id
+dump_modify posdump sort id
+
+run             1100000
+
+unfix 2
+unfix statdump

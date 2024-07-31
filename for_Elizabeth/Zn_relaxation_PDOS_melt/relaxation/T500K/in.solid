@@ -1,0 +1,90 @@
+#how to run
+# srun -n 512 --cpu-bind=cores --exclusive --zonesort=off shifter lmp_mpich -v SEED 1 -v T 1200 -v P 1.0 -v N 1000 -v REF_LIQ -4.33 -v LABEL Ge_P_N -v RUNSTEPS 1e7 -in in.melt > melt.out
+
+#======================Simulation Parameters====================
+variable run_steps         equal ${RUNSTEPS} #maximum number of steps in coexistence simulation 
+variable equilibrate_steps equal 600000 #number of steps for system equlibration
+variable average_steps     equal 20000 #number of steps used to calculate ference solid and liquid energies
+
+variable ref_en_liq     equal ${REF_LIQ} # reference energy of liquid obtained from liquid run 
+
+variable my_N equal $N              #from bash
+variable my_T equal $T              #from bash
+variable Tx2 equal ${T}.
+variable    my_filename   string ${LABEL} #output filename from bash
+
+variable side equal ($N/2)^(1/3)    #box shape 
+variable my_side equal ${side}
+variable latparam  equal 5.10        #by default 5.10 for Zn
+
+
+print "temp=${my_T}, press=${P}, N=${my_N}, latparam=${latparam}, seed=${SEED}"
+#=====================Averages run=============================
+#==============================================================
+
+#======================SOLID & Full box==================================
+#------------------Box parameters-----------------------------
+units       metal 
+boundary p p p
+
+box tilt large
+read_data       supercell_lammps
+
+
+#increase lattice to side x side x 2side shape---------
+variable dub_side   equal ${side}.*2
+replicate ${dub_side} ${dub_side} ${side}
+
+#------------------Potential parameters----------------
+mass       1 65.38 #Zn
+
+pair_style  mlip mlip.ini
+pair_coeff  * *           #  
+
+neighbor    1.0 bin
+neigh_modify delay 0 every 1 check yes
+
+#-------------Output and thermo variables---------------------
+variable    step    equal step     #simulation step number
+variable   temp_    equal temp     #current temperature
+variable   temp_sim equal $T       #initial temperature (from bash)
+variable    vol     equal vol/atoms       
+variable    press   equal press    #current pressure
+#--------------------Output files----------------------------
+variable dump_name string ${LABEL}_${SEED}_${my_T}
+
+#--------------------------Run------------------------------
+#----------------------------------------------------------
+velocity all create ${Tx2} ${SEED}
+
+#------solid at npt-------------------
+#fix mc all atom/swap 10 10 ${SEED} $T ke no types 1 2 #atom swap (from MC package)
+fix      1 all npt temp $T $T 5.0 aniso $P $P 10.0 #set system at T temperature 
+
+variable C_dT equal c_thermo_pe/atoms           #potential energy
+fix     3 all ave/time 1 10000 10000 v_C_dT     #average potential energy every 10000 steps
+thermo_style custom step time temp vol v_side f_3 press #log/screen output
+thermo 10000
+timestep 0.001
+variable    pe_      equal f_3   #potential energy
+
+run 40000
+
+#equlibrate solid at T---------------
+variable xlo_ equal xlo
+variable xhi_ equal xhi
+
+variable ylo_ equal ylo
+variable yhi_ equal yhi
+
+variable zlo_ equal zlo
+variable zhi_ equal zhi
+
+variable xy_ equal xy
+variable xz_ equal xz
+variable yz_ equal yz
+
+
+fix      4 all print 10000 "${xlo_} ${xhi_} ${ylo_} ${yhi_} ${zlo_} ${zhi_} ${xy_} ${xz_} ${yz_}" file cell.dat
+
+run ${equilibrate_steps}     #equlibrate system

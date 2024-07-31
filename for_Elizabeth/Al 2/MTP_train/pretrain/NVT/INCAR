@@ -1,0 +1,28 @@
+SYSTEM = Al
+PREC = Normal
+ENCUT = 410
+EDIFF = 1.0e-5
+
+ISTART = 0
+ICHARGE = 2
+ISMEAR = 1
+SIGMA = 0.1
+
+KGAMMA = .TRUE.
+KSPACING =  2.0
+
+NCORE = 16
+NSIM = 4
+
+ISYM   =      0
+NELM   =     80;
+
+LORBIT=10
+LWAVE = .FALSE.
+LCHARG = .FALSE.
+
+# MD (do little writing to save disc space)
+IBRION = 0 ; ISIF = 2; NSW = 100; NWRITE = 1 ; LCHARG = .FALSE. ; LWAVE = .FALSE.
+TEBEG =   900 ; TEEND =  900
+# canonic (Nose) MD with XDATCAR updated every 50 steps
+SMASS = 0 ;  NBLOCK = 1 ; POTIM = 1.0; NELMIN = 3

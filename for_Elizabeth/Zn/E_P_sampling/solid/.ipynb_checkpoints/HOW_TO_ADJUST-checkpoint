@@ -1,0 +1,28 @@
+Here are notes how to adjust to your own system
+
+1. Be aware of your cell 
+
+The example is generated for diamond cell so in order
+to optimize it for your system
+
+A. Replace the "supercell_lammps"
+B. In "run_sym.sh" make sure you understand what 'lat_param'
+   'quat' and 'half' and 'third' means (this are portion of
+   lattice constant I have as a placeholders for generation of
+   conventional unit cell with particular volume)
+
+C. Do the same in E0_ref folder (I recommend setting
+having lattice parameter grid to range from minimum to maximum lattice parameter
+in the main folder with step 0.01 A)
+
+2. Replace (T,V, N) net for your system 
+
+In "script_gen.py" replace generation of T and V (hope someone who 
+is reading this is familiar with python) and N (multiplicity of unit cell in each dimention)
+
+Note: volume i use for setup is volume of cubic conventional unit cell
+
+3. Replace "pot.mtp" for one from your system
+
+4. Replace mass in each lammps script to mass of your element or several elements
+(does not mater)

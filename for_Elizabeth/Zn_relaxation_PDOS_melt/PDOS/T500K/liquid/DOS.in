@@ -1,0 +1,92 @@
+#how to run
+# srun -n 512 --cpu-bind=cores --exclusive --zonesort=off shifter lmp_mpich -v SEED 1 -v T 1200 -v P 1.0 -v N 1000 -v LABEL Ge_P_N -v RUNSTEPS 1e7 -in in.liquid > liquid.out
+
+#======================Simulation Parameters====================
+variable run_steps         equal ${RUNSTEPS} #maximum number of steps in coexistence simulation 
+variable equilibrate_steps equal 20000 #number of steps for system equlibration
+variable average_steps     equal 60000 #number of steps used to calculate ference solid and liquid energies
+
+variable my_N equal $N              #from bash
+variable my_T equal $T              #from bash
+variable    my_filename   string ${LABEL} #output filename from bash
+
+variable side equal ($N/2)^(1/3)    #box shape 
+variable my_side equal ${side}
+variable latparam  equal 2.66        # put the lattice parameter according to the supecercell Zn
+
+print "temp=${my_T}, press=${P}, N=${my_N}, latparam=${latparam}, seed=${SEED}"
+#=====================Averages run=============================
+#==============================================================
+#
+#======================LIQUID==================================
+
+#dump    liq all xyz 10000 twophases_liq.xyz
+#------------------Box parameters-----------------------------
+units       metal 
+boundary p p p
+
+box tilt large
+read_data       supercell_lammps
+
+
+#------------------Potential parameters----------------
+mass       1 65.38 #Zn
+
+pair_style  mlip mlip.ini
+pair_coeff  * *           #  
+
+neighbor    1.0 bin
+neigh_modify delay 0 every 1 check yes
+
+#-----------------------Run---------------------------
+#-----------------------------------------------------
+
+#make liquid with nve+langevin----------
+fix     liq all nve
+variable T_high equal 4*$T #to heat liquid region up to 5*T
+fix     liq2 all langevin ${T_high} ${T_high} 10.0 ${SEED} #to melt liquid region
+
+variable C_dT equal c_thermo_pe/atoms   #potential energy
+fix     3 all ave/time 1 10000 10000 v_C_dT #average potential energy f_3 (every 10000 steps)
+thermo_style custom step temp vol v_side f_3 press #log/screen output
+thermo 10000
+timestep 0.001
+
+run     30000 #melting steps
+
+unfix liq
+unfix liq2
+
+#equlibrate liquid at T----------------
+fix      liq3 all npt temp $T $T 1.0 aniso $P $P 100.0 
+run ${equilibrate_steps}
+
+#run simulation to find average------- 
+variable all_steps	equal ${average_steps}+step
+fix     ave_liq all ave/time 1 ${average_steps} ${all_steps} v_C_dT #average potential energy f_3 (every 10000 steps)
+variable en_liq_temp	equal f_3 #NOT f_ave_liq, because of converence!!!
+
+run ${average_steps}
+
+variable ref_en_liq	equal ${en_liq_temp}
+print "en_check liq ${ref_en_liq}"
+
+unfix ave_liq
+unfix liq3
+unfix 3
+
+#========== NVE VACF =========================
+
+
+compute va all vacf
+
+reset_timestep 0
+thermo 1
+thermo_style    custom step temp ke pe etotal c_va[1] c_va[2] c_va[3] c_va[4]
+timestep        0.001
+
+fix 2 all nve 
+
+run             10000
+
+unfix 2

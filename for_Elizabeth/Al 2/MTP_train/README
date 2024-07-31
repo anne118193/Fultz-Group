@@ -1,0 +1,93 @@
+# Note: I generate POSCAR file with TDEP ('generate_structure -d x x x')
+#       also applies to supercell_lammps ('generate_structure -d x x x -of 3')
+
+# Also all scripts here work for my docker container
+# You can download it from my docker account (see instruction below)
+
+# Use the following command to download (NERSC users; both on cori and perlmutter)
+# All scripts are load this container
+shifterimg -v pull docker:wolanddream/python_mpi:lammps_hdf5
+
+# If you are writing your own job scripts with the use of the container
+# just include the following line
+"#SBATCH --image=docker:wolanddream/python_mpi:lammps_hdf5"
+
+##############
+./pretrain/ # Folder containing scripts for MTP pretraining
+
+	   NVT # vasp setup for NVT AIMD for 100 fs
+           train # training on configurations from AIMD
+
+#go to
+cd pretrain/NVT
+
+	POSCAR # vasp POSCAR
+	POTCAR # vasp POTCAR
+	INCAR  # vasp INCAR
+	job.sl # batch script
+
+sbatch job.sl
+
+#go to 
+cd ../train 
+
+	   init.mtp # randomly initialized mashine learning potential
+           strip_conf.py # script for uniformly choose 10 confs out of 100
+           job.sl # batch script
+
+sbatch job.sl # script for pretraining
+
+#script will automatically submit stage-1 job.sl
+
+# Output:
+       train.cfg # initial training set 
+       pot.mtp # pretrained potential
+
+cd ../../stage-1 # first stage for training of solid
+                 # at some specific temperature and volume (same as in NVT)
+
+
+# Job generates folders 01 02 ... 50
+
+# On last iteration finished check for C-seleted.cfg
+
+grep -c "BEGIN_CFG" ITER/C-selected.cfg
+
+# If output is 0 in last folder you are done (no new configurations selected)
+# If job.sl ended before the iteration with 0 selected
+# resubmit job.sl
+
+# Otherwise
+sbatch job_reduce.sl
+
+############################
+############################
+
+# Copy latest iteration folder to stage-1b and go there
+cd stage-1b
+
+# Replace in line "for j in `seq 43 80`; do ./master_iter.sh iter_runner.sh; done" 43 with current iteration
+sbatch job.sl
+# Check for convergence (see stage-1)
+# Do comment uncomment step (see stage-1)
+
+# Go to stage-2 folder 
+# You can choose between versions. I strongly recommend to use GPU one
+# Since here DFT calcs take a while to finish (copy the folder "stage-2_gpu" on perlmutter)
+cd ../stage-2
+# Copy latest training set to 00 folder
+cp ../stage-1b/LAST_ITER/train.cfg ./00
+# Submit the job
+sbatch job.sl
+
+# Go to stage-2b folder
+# This calculation is costly (otherwise the same as stage-1b)
+cd ../stage-2b
+# Copy latest training set to 00 folder
+cp -r ../stage-2/01 ./
+# Submit the job
+sbatch job.sl
+
+# Wait until convergence
+
+You are done!!!

@@ -1,0 +1,78 @@
+#how to run
+# srun -n 512 --cpu-bind=cores --exclusive --zonesort=off shifter lmp_mpich -v SEED 1 -v T 1200 -v P 1.0 -v N 1000 -v REF_LIQ -4.33 -v LABEL Ge_P_N -v RUNSTEPS 1e7 -in in.melt > melt.out
+
+#======================Simulation Parameters====================
+variable equilibrate_steps equal 40000 #number of steps for system equlibration
+variable average_steps     equal 20000 #number of steps used to calculate ference solid and liquid energies
+
+
+variable T equal 887.3            #from bash
+
+#=====================Averages run=============================
+#==============================================================
+
+#======================SOLID & Full box==================================
+#------------------Box parameters-----------------------------
+units       metal 
+boundary p p p
+
+box tilt large
+read_data       supercell_lammps
+replicate 30 30 30
+
+#------------------Potential parameters----------------
+mass    1  26.982 #Al
+
+pair_style  mlip mlip.ini
+pair_coeff  * *           #  
+
+neighbor    1.0 bin
+neigh_modify delay 0 every 1 check yes
+
+#-------------Output and thermo variables---------------------
+variable    step    equal step     #simulation step number
+variable   temp_    equal temp     #current temperature
+variable   temp_sim equal $T       #initial temperature (from bash)
+variable    vol     equal vol/atoms       
+variable    press   equal press    #current pressure
+
+#--------------------------Run------------------------------
+#----------------------------------------------------------
+velocity all create $T ${SEED}
+
+#------solid at npt-------------------
+#fix mc all atom/swap 10 10 ${SEED} $T ke no types 1 2 #atom swap (from MC package)
+#fix      1 all npt temp $T $T 1.0 aniso $P $P 100.0 #set system at T temperature 
+fix             1 all nve
+fix             2 all langevin $T $T 1.0 ${SEED} zero yes
+
+
+variable C_dT equal c_thermo_pe/atoms           #potential energy
+fix     3 all ave/time 1 10000 10000 v_C_dT     #average potential energy every 10000 steps
+thermo_style custom step time temp vol f_3 press #log/screen output
+thermo 10000
+timestep 0.001
+variable    pe_      equal f_3   #potential energy
+
+#equlibrate solid at T---------------
+run ${equilibrate_steps}     #equlibrate system
+
+unfix 1
+unfix 2
+unfix 3
+
+#========== NVE VACF =========================
+
+
+compute va all vacf
+
+reset_timestep 0
+thermo 1
+thermo_style    custom step temp ke pe etotal pxx pyy pzz c_va[4]
+timestep        0.001
+
+fix 3 all nve
+
+run             10000
+
+unfix 3

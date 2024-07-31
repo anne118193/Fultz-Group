@@ -1,0 +1,18 @@
+Notes how to adjust to your own system
+
+In setup
+1. Substitute supercell_lammps liquid and solid_melt folders
+   supercell_lammps here correspond to conventional unit cell
+   can be generated with TDEP from infile.ucposcar by call
+   generate_structure -d 1 1 1 -of 3
+2. Replace masses in lammps in.liquid and in.melt files
+3. Replace lattice parameter value to one of your system
+   "variable latparam  equal 5.78"
+
+4. Replace SYSTEM tag in create_T_folder.sh if not Ge
+
+Additional options
+#5. Replace N in all job.sl if cell is not diamond (also think about fcc cell
+#  generation, may be replace everything with just reading large supercell)
+#6. Replace P in atm if not 1
+
