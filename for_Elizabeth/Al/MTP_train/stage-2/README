@@ -1,0 +1,14 @@
+We start here high precision calculations 
+on high ENCUT and dense KGRID (on CPUs)
+
+# Before the start
+
+do not forget to copy "train.cfg" from last iter 
+of stage-1b into 00 folder
+
+# HOW TO RUN
+very simple, just submit "job.sl"
+sbatch job.sl
+
+You are done!!!
+
