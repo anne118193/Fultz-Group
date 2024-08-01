@@ -1,0 +1,8 @@
+# Aluminium autocorrelation function calculator
+
+# TODO
+1. put latest potential (pot.mtp) into the folder
+
+2. submit job.sl script
+
+3. run ipython notebook pdos.ipynb
