@@ -1,0 +1,4 @@
+Continuation of stage-1 with multimd
+
+The only difference from stage-1 is that here we sample from md 
+with various temperatures and lattice constants

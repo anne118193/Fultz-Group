@@ -1,0 +1,20 @@
+SYSTEM = Al
+PREC = Normal
+ENCUT = 410
+EDIFF = 1.0e-5
+
+ISTART = 0
+ISMEAR = 1
+SIGMA = 0.1
+
+KGAMMA = .TRUE.
+KSPACING =  2.0
+
+NCORE = 16
+NSIM = 4
+
+ISYM   =      0
+NELM   =     80;
+
+LWAVE = .FALSE.
+LCHARG = .FALSE.

@@ -1,0 +1,77 @@
+
+units           metal
+dimension       3
+boundary        p p p
+atom_style      atomic
+atom_modify map array
+
+variable        Tmelt equal 1500
+variable        Ttarg equal 600
+
+variable        amelt equal 4.275
+
+variable        atarg equal 4.100
+
+variable        size  equal 3
+
+variable        seed equal 123461
+
+#=====================Box parameters============================
+units       metal
+boundary p p p
+
+
+box tilt large
+read_data       supercell_lammps
+
+
+
+mass    1  26.98 #Al
+
+#===============================================================
+
+pair_style mlip mlip.ini 
+pair_coeff * * 
+
+neighbor        2.0 bin
+neigh_modify    every 1 delay 0 check no
+
+#========================Create regions=========================
+velocity all create ${Tmelt} ${seed}
+
+#=========thermo==================
+thermo_style custom step temp vol press
+
+fix      1 all nvt temp ${Tmelt} ${Tmelt} 0.1 
+
+timestep 0.001
+thermo_style custom step time temp vol press
+thermo 1
+run 10
+thermo 1
+run 90
+thermo 10
+run 900
+thermo 100
+run 9000
+
+variable newlatx equal ${size}*${atarg}
+variable newlaty equal ${size}*${atarg}
+variable newlatz equal ${size}*${atarg}
+
+fix 3 all deform 1 x final 0 ${newlatx} y final 0 ${newlaty} z final 0 ${newlatz} units lattice remap v
+thermo 100
+run 10000
+
+unfix 1
+unfix 3
+write_dump all custom my.dump id type x y z
+write_data end.inp
+
+fix      1 all nvt temp ${Ttarg} ${Ttarg} 0.1 
+velocity all create ${Ttarg} ${seed}
+
+run 10000
+
+write_dump all custom my.dump id type x y z
+write_data end.inp
